@@ -1,0 +1,126 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+    // Initialize memory array
+    static Array memory;
+    
+    // Initialize
+    static int heapBase;
+    static int heapSize;
+
+    static int freeList;
+    static int nextSegment;
+    static int segmentLength;
+
+    /** Initializes the class. */
+    function void init() {
+        let memory = 0;
+        let heapBase = 2048;
+        let heapSize = 16383;
+
+        let freeList = heapBase;
+        let nextSegment = 0;
+        let segmentLength = 0;
+        return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+        return (memory[address]);
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+        let memory[address] = value;
+        return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+        var int blockStartingLocation;
+        let segmentLength = size;
+        // Search freeList to obtain segment with a memory block >= size + 2
+        let blockStartingLocation = Memory.firstFit(freeList);
+        
+        // If no segment found, return failure or attempt defragmentation
+        if (blockStartingLocation = 0) {
+            return 0;
+        }
+
+        // Update freeList and the fields of block to account for the allocation
+        let memory[blockStartingLocation] = size;
+        let memory[blockStartingLocation + 1] = nextSegment;
+        let nextSegment = freeList;
+        let freeList = blockStartingLocation;
+    
+        // Return block
+        return blockStartingLocation;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+        var int beginAt;
+        var int length;
+        var int i;
+
+        // Set starting point for deallocation
+        let beginAt = o; 
+        let length = memory[o];
+
+        // Clear the data
+        while(i < length) {
+            let memory[beginAt + i] = 0;
+            let i = i + 1;
+        }
+        return;
+    }    
+    
+    // Recursive function to find a valid segment.
+    // Returns starting address of segment. If no segment found, return 0.
+    function int firstFit(int begin) {
+        var int currentBlockSize;
+        var int nextInList;        
+        var int startLoopAt;
+        var int i;
+
+        // Set current memory block size
+        let currentBlockSize = memory[begin];            
+        // Get next memory block        
+        let nextInList = memory[begin + 1];
+
+        // This begins loop at the END of the current memory block. We are checking 
+        // if there is space after the current memory block by doing this.
+        let startLoopAt = begin + currentBlockSize; 
+        
+        // If we're going over the size of the heap, we have no more space. Return 0.
+        if(startLoopAt > heapSize) {
+            return 0;
+        }
+
+        let i = 0;
+        // Loop through segment and make sure each spot in memory is free to use.
+        while (i < (segmentLength + 2)) {
+            if(~(memory[startLoopAt + i] = 0)){
+                // If nextInList isn't 0, we know we're not at the end of the list.
+                if(~(nextInList = 0)) {
+                    return Memory.firstFit(nextInList);
+                }
+                else {
+                    return 0;
+                }   
+            }
+            let i = i + 1;
+        }
+        // Return starting location for memory block.
+        return startLoopAt;
+    }
+}

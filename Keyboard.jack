@@ -1,0 +1,89 @@
+class Keyboard {
+    static int keyboardMemoryMap;
+
+    /** Initializes the keyboard. */
+    function void init() {
+        let keyboardMemoryMap = 24576;  // Memory map for keyboard (0x6000)
+        return;
+    }
+
+    /** 
+     * Returns the character of the currently pressed key on the keyboard;
+     * if no key is currently pressed, returns 0.
+     */
+    function char keyPressed() {
+        return Memory.peek(keyboardMemoryMap);
+    }
+
+    /**
+     * Waits until a key is pressed on the keyboard and released,
+     * then echoes the key to the screen, and returns the character of the pressed key.
+     */
+    function char readChar() {
+        var char key, c;
+        
+        // Wait until key is pressed
+        while (key = 0) {
+            let key = Keyboard.keyPressed();
+        }
+        
+        let c = key;
+        
+        // Wait until key is released
+        while (~(Keyboard.keyPressed() = 0)) {}
+        
+        // Echo the character to the screen
+        do Output.printChar(c);
+        
+        return c;
+    }
+
+    /**
+     * Displays the message on the screen, reads from the keyboard the entered
+     * text until a newline character is detected, echoes the text to the screen,
+     * and returns its value.
+     */
+    function String readLine(String message) {
+        var String s;
+        var char c;
+        
+        do Output.printString(message);
+        
+        let s = String.new(64);  // Max line length
+        
+        while (true) {
+            let c = Keyboard.readChar();
+            
+            // Newline - return the string
+            if (c = 128) {
+                do Output.println();
+                return s;
+            }
+            
+            // Backspace - remove last character
+            if (c = 129) {
+                if (s.length() > 0) {
+                    do s.eraseLastChar();
+                    do Output.backSpace();
+                }
+            }
+            // Regular character - append to string
+            else {
+                do s.appendChar(c);
+            }
+        }
+        
+        return s;  // Never reaches here
+    }
+
+    /**
+     * Displays the message on the screen, reads from the keyboard the entered
+     * text until a newline character is detected, echoes the text to the screen,
+     * and returns its integer value.
+     */
+    function int readInt(String message) {
+        var String s;
+        let s = Keyboard.readLine(message);
+        return s.intValue();
+    }
+}
