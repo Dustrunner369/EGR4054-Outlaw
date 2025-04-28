@@ -120,4 +120,10 @@ class Math {
         }
         return x;
     }
+    // Returns the remainder of x/y
+    function int mod(int x, int y) {
+        var int q;
+        let q = x / y;
+        return x - (q * y);
+    }
 }

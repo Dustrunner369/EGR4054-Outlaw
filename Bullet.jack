@@ -1,0 +1,69 @@
+// Bullet class - fixed version
+class Bullet {
+    field int x_location;
+    field int y_location;
+    field int direction; // 1 = right, 2 = left
+    field int speed;
+    
+    // Constructor initializes the bullet at a specific position and direction
+    constructor Bullet new(int x, int y, int dir) {
+        let x_location = x;
+        let y_location = y;
+        let direction = dir;
+        let speed = 5; // Bullets move faster than players
+        return this;
+    }
+    
+    // Fix the syntax in Bullet.draw() method
+    method void draw() {
+        // Ensure coordinates are within screen bounds
+        if ((x_location < 509) & (y_location < 253)) {
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x_location, y_location, x_location + 3, y_location + 2);
+        }
+        return;
+    }
+
+    // Also fix the remove() method
+    method void remove() {
+        // Ensure coordinates are within screen bounds
+        if ((x_location < 509) & (y_location < 253)) {
+            do Screen.setColor(false);
+            do Screen.drawRectangle(x_location, y_location, x_location + 3, y_location + 2);
+        }
+        return;
+    }
+        
+    // Move the bullet
+    method void move() {
+        do remove();
+        
+        if (direction = 1) { // Moving right
+            let x_location = x_location + speed;
+            if (x_location > 508) { let x_location = 508; } // Prevent going off-screen
+        }
+        if (direction = 2) { // Moving left
+            let x_location = x_location - speed;
+            if (x_location < 0) { let x_location = 0; } // Prevent going off-screen
+        }
+        
+        do draw();
+        return;
+    }
+    
+    // Get x-coordinate
+    method int getX() {
+        return x_location;
+    }
+    
+    // Get y-coordinate
+    method int getY() {
+        return y_location;
+    }
+    
+    // Deallocate memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

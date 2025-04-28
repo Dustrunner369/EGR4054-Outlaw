@@ -1,0 +1,42 @@
+// Target class - represents objects the player can interact with
+class Target {
+	field int x_location;
+	field int y_location;
+	
+	// Constructor for a target at a specific position
+	constructor Target new(int x, int y) {
+		let x_location = x;
+		let y_location = y;
+		return this;
+	}
+	
+	// Draw the target on the screen
+	method void draw() {
+		do Screen.setColor(true);
+		do Screen.drawCircle(x_location + 5, y_location + 5, 5);
+		return;
+	}
+	
+	// Remove the target from the screen
+	method void remove() {
+		do Screen.setColor(false);
+		do Screen.drawCircle(x_location + 5, y_location + 5, 5);
+		return;
+	}
+	
+	// Get x-coordinate
+	method int getX() {
+		return x_location;
+	}
+	
+	// Get y-coordinate
+	method int getY() {
+		return y_location;
+	}
+	
+	// Deallocate memory
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+}

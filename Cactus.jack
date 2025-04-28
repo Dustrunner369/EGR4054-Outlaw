@@ -1,0 +1,71 @@
+// Cactus.jack - Obstacle in the middle of the screen
+class Cactus {
+    field int x_location;
+    field int y_location;
+    field int width;
+    field int height;
+    
+    // Constructor initializes the cactus at a specific position
+    constructor Cactus new(int x, int y) {
+        let x_location = x;
+        let y_location = y;
+        let width = 25;
+        let height = 40;
+        return this;
+    }
+    
+    // Draw the cactus on the screen - fixed version
+    method void draw() {
+        // Draw the main body of the cactus
+        do Screen.setColor(true);
+        
+        // Make sure all coordinates are valid (ending coordinates > starting coordinates)
+        
+        // Central stem
+        do Screen.drawRectangle(x_location + 10, y_location, x_location + 15, y_location + height);
+        
+        // Left arm
+        if (x_location < x_location + 10) { // Ensure x2 > x1
+            do Screen.drawRectangle(x_location, y_location + 15, x_location + 10, y_location + 20);
+        }
+        if (x_location < x_location + 5) { // Ensure x2 > x1
+            do Screen.drawRectangle(x_location, y_location + 5, x_location + 5, y_location + 15);
+        }
+        
+        // Right arm
+        if (x_location + 15 < x_location + width) { // Ensure x2 > x1
+            do Screen.drawRectangle(x_location + 15, y_location + 10, x_location + width, y_location + 15);
+        }
+        if (x_location + 20 < x_location + 25) { // Ensure x2 > x1
+            do Screen.drawRectangle(x_location + 20, y_location + 15, x_location + 25, y_location + 25);
+        }
+        
+        return;
+    }
+    
+    // Get x-coordinate
+    method int getX() {
+        return x_location;
+    }
+    
+    // Get y-coordinate
+    method int getY() {
+        return y_location;
+    }
+    
+    // Get width
+    method int getWidth() {
+        return width;
+    }
+    
+    // Get height
+    method int getHeight() {
+        return height;
+    }
+    
+    // Deallocate memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

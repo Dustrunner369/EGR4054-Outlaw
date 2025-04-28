@@ -1,0 +1,63 @@
+function Target.new 0
+    push constant 2
+    call Memory.alloc 1
+    pop pointer 0
+    push argument 0
+    pop this 0
+    push argument 1
+    pop this 1
+    push pointer 0
+    return
+function Target.draw 0
+    push argument 0
+    pop pointer 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push this 0
+    push constant 5
+    add
+    push this 1
+    push constant 5
+    add
+    push constant 5
+    call Screen.drawCircle 3
+    pop temp 0
+    push constant 0
+    return
+function Target.remove 0
+    push argument 0
+    pop pointer 0
+    push constant 0
+    call Screen.setColor 1
+    pop temp 0
+    push this 0
+    push constant 5
+    add
+    push this 1
+    push constant 5
+    add
+    push constant 5
+    call Screen.drawCircle 3
+    pop temp 0
+    push constant 0
+    return
+function Target.getX 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Target.getY 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function Target.dispose 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

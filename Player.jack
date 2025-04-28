@@ -1,0 +1,105 @@
+// Player.jack - Enhanced for outlaw game
+class Player {
+    field int x_location;
+    field int y_location;
+    field int prev_x;
+    field int prev_y;
+    field int direction; // 1 = up, 2 = down, 3 = left, 4 = right
+    field boolean alive;
+
+    // Constructor initializes the player at the specified position
+    constructor Player new(int x, int y) {
+        let x_location = x;
+        let y_location = y;
+        let prev_x = x;
+        let prev_y = y;
+        let direction = 0;
+        let alive = true;
+        return this;
+    }
+
+    // Draw the player (outlaw) on the screen
+    method void draw() {
+        do Screen.setColor(true);
+        // Draw a simple 10x10 square for the player
+        do Screen.drawRectangle(x_location, y_location, x_location + 10, y_location + 10);
+        return;
+    }
+
+    // Remove the player from the current position
+    method void remove() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x_location, y_location, x_location + 10, y_location + 10);
+        return;
+    }
+
+    // Set the direction of movement
+    method void setDirection(int dir) {
+        let direction = dir;
+        return;
+    }
+
+    // Get x-coordinate
+    method int getX() {
+        return x_location;
+    }
+
+    // Get y-coordinate
+    method int getY() {
+        return y_location;
+    }
+
+    // Move the player in the current direction
+    method void move() {
+        // Store previous position
+        let prev_x = x_location;
+        let prev_y = y_location;
+        
+        do remove();
+        
+        if (direction = 1) { // Up
+            if (y_location > 2) {
+                let y_location = y_location - 2;
+            }
+        }
+        if (direction = 2) { // Down
+            if (y_location < 240) { // Keep away from bottom edge
+                let y_location = y_location + 2;
+            }
+        }
+        if (direction = 3) { // Left
+            if (x_location > 2) {
+                let x_location = x_location - 2;
+            }
+        }
+        if (direction = 4) { // Right
+            if (x_location < 499) { // Keep away from right edge
+                let x_location = x_location + 2;
+            }
+        }
+        
+        // Final boundary check
+        if (x_location < 0) { let x_location = 0; }
+        if (x_location > 501) { let x_location = 501; }
+        if (y_location < 0) { let y_location = 0; }
+        if (y_location > 244) { let y_location = 244; }
+        
+        do draw();
+        return;
+    }
+    
+    // Move back to previous position (for collision handling)
+    method void moveBack() {
+        do remove();
+        let x_location = prev_x;
+        let y_location = prev_y;
+        do draw();
+        return;
+    }
+
+    // Deallocate memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

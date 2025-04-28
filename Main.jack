@@ -1,0 +1,11 @@
+// Main.jack
+class Main {
+    function void main() {
+        var TwoPlayerGame game;
+        
+        let game = TwoPlayerGame.new();
+        do game.start();
+        
+        return;
+    }
+}
