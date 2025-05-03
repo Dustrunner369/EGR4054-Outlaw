@@ -1,148 +1,142 @@
 function Bullet.new 0
-    push constant 4
-    call Memory.alloc 1
-    pop pointer 0
-    push argument 0
-    pop this 0
-    push argument 1
-    pop this 1
-    push argument 2
-    pop this 2
-    push constant 5
-    pop this 3
-    push pointer 0
-    return
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push argument 2
+pop this 2
+push constant 5
+pop this 3
+push pointer 0
+return
 function Bullet.draw 0
-    push argument 0
-    pop pointer 0
-    push this 0
-    push constant 509
-    lt
-    push this 1
-    push constant 253
-    lt
-    and
-    not
-    if-goto Bullet_1
-    push constant 1
-    neg
-    call Screen.setColor 1
-    pop temp 0
-    push this 0
-    push this 1
-    push this 0
-    push constant 3
-    add
-    push this 1
-    push constant 2
-    add
-    call Screen.drawRectangle 4
-    pop temp 0
-    goto Bullet_0
-label Bullet_1
-label Bullet_0
-    push constant 0
-    return
+push argument 0
+pop pointer 0
+push this 0
+push constant 509
+lt
+push this 1
+push constant 253
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 3
+add
+push this 1
+push constant 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
 function Bullet.remove 0
-    push argument 0
-    pop pointer 0
-    push this 0
-    push constant 509
-    lt
-    push this 1
-    push constant 253
-    lt
-    and
-    not
-    if-goto Bullet_3
-    push constant 0
-    call Screen.setColor 1
-    pop temp 0
-    push this 0
-    push this 1
-    push this 0
-    push constant 3
-    add
-    push this 1
-    push constant 2
-    add
-    call Screen.drawRectangle 4
-    pop temp 0
-    goto Bullet_2
-label Bullet_3
-label Bullet_2
-    push constant 0
-    return
+push argument 0
+pop pointer 0
+push this 0
+push constant 509
+lt
+push this 1
+push constant 253
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push this 1
+push this 0
+push constant 3
+add
+push this 1
+push constant 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
 function Bullet.move 0
-    push argument 0
-    pop pointer 0
-    push pointer 0
-    call Bullet.remove 1
-    pop temp 0
-    push this 2
-    push constant 1
-    eq
-    not
-    if-goto Bullet_5
-    push this 0
-    push this 3
-    add
-    pop this 0
-    push this 0
-    push constant 508
-    gt
-    not
-    if-goto Bullet_7
-    push constant 508
-    pop this 0
-    goto Bullet_6
-label Bullet_7
-label Bullet_6
-    goto Bullet_4
-label Bullet_5
-label Bullet_4
-    push this 2
-    push constant 2
-    eq
-    not
-    if-goto Bullet_9
-    push this 0
-    push this 3
-    sub
-    pop this 0
-    push this 0
-    push constant 0
-    lt
-    not
-    if-goto Bullet_11
-    push constant 0
-    pop this 0
-    goto Bullet_10
-label Bullet_11
-label Bullet_10
-    goto Bullet_8
-label Bullet_9
-label Bullet_8
-    push pointer 0
-    call Bullet.draw 1
-    pop temp 0
-    push constant 0
-    return
+push argument 0
+pop pointer 0
+push pointer 0
+call Bullet.remove 1
+pop temp 0
+push this 2
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push this 3
+add
+pop this 0
+push this 0
+push constant 508
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 508
+pop this 0
+label IF_FALSE1
+label IF_FALSE0
+push this 2
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push this 3
+sub
+pop this 0
+push this 0
+push constant 0
+lt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+pop this 0
+label IF_FALSE3
+label IF_FALSE2
+push pointer 0
+call Bullet.draw 1
+pop temp 0
+push constant 0
+return
 function Bullet.getX 0
-    push argument 0
-    pop pointer 0
-    push this 0
-    return
+push argument 0
+pop pointer 0
+push this 0
+return
 function Bullet.getY 0
-    push argument 0
-    pop pointer 0
-    push this 1
-    return
+push argument 0
+pop pointer 0
+push this 1
+return
 function Bullet.dispose 0
-    push argument 0
-    pop pointer 0
-    push pointer 0
-    call Memory.deAlloc 1
-    pop temp 0
-    push constant 0
-    return
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
