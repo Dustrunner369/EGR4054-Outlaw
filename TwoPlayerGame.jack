@@ -1,4 +1,3 @@
-// TwoPlayerGame.jack - Outlaw shooting game
 class TwoPlayerGame {
     field Player player1;
     field Player player2;
@@ -18,9 +17,7 @@ class TwoPlayerGame {
         // Initialize players on opposite sides
         let player1 = Player.new(100, 120);
         let player2 = Player.new(400, 120);
-        let cactus = Cactus.new(250, 120); // Centered cactus obstacle
-        let bullet1 = Bullet.new(0, 0, 0); 
-        let bullet2 = Bullet.new(0, 0, 0);
+        let cactus = Cactus.new(250, 120); // Centered cactus obstacle            
         let lives1 = 3;
         let lives2 = 3;
         let gameActive = false;
@@ -116,7 +113,6 @@ class TwoPlayerGame {
         return;
     }
     
-    // Start the game with two players - fixed version
     method void start() {
         var char currentKey;
         var boolean exit;
@@ -197,11 +193,11 @@ class TwoPlayerGame {
                 //     do updateLives();
                 // }
                 
-                // // Check if bullet hit cactus
-                // if (checkBulletCactusHit(bullet1)) {
-                //     let bullet1Active = false;
-                //     do bullet1.remove();
-                // }
+                // Check if bullet hit cactus
+                if (checkBulletCactusHit(bullet1)) {
+                    let bullet1Active = false;
+                    do bullet1.remove();
+                }
                 
                 // Check if bullet went off screen
                 if ((bullet1.getX() < 0) | (bullet1.getX() > 500)) {
@@ -223,8 +219,8 @@ class TwoPlayerGame {
                 
                 // Check if bullet hit cactus                
                 if (checkBulletCactusHit(bullet2)) {
-                    //let bullet2Active = false;
-                    //do bullet2.remove();
+                    let bullet2Active = false;
+                    do bullet2.remove();
                 }
                 
                 // Check if bullet went off screen
@@ -329,18 +325,10 @@ class TwoPlayerGame {
     // Check if a bullet hit the cactus
     method boolean checkBulletCactusHit(Bullet b) {                        
         // Check for collision
-        if((b.getX() < cactus.getX() + 25)) {
-            // do Output.printString("Bullet Y: y="); do Output.printInt(b.getY()); do Output.println();
-            // do Output.printString("Cactus Y: y="); do Output.printInt(cactus.getY()); do Output.println();
-            //do Output.printString("Bullet X:"); do Output.printInt(b.getX()); do Output.println();
-            do Output.printString("Cactus:"); do Output.printInt(cactus.getX() + 25); do Output.println();
-        }
-        
-        if ((b.getX() < cactus.getX() + cactus.getWidth()) & 
-        (b.getX() + b.getWidth() > cactus.getX()) & 
-        (b.getY() < cactus.getY() + cactus.getHeight()) & 
-        (b.getY() + b.getHeight() > cactus.getY())) { 
-                               
+        if ((b.getX() < (cactus.getX() + cactus.getWidth())) & 
+        ((b.getX() + b.getWidth()) > cactus.getX()) & 
+        (b.getY() < (cactus.getY() + cactus.getHeight())) & 
+        ((b.getY() + b.getHeight()) > cactus.getY())) {             
             return true;
         }        
         return false;
