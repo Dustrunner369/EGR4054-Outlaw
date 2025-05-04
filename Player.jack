@@ -2,9 +2,7 @@ class Player {
     field int x;
     field int y;
     field int width;
-    field int height;
-    field int prev_x;
-    field int prev_y;
+    field int height;    
     field int direction; // 1 = up, 2 = down, 3 = left, 4 = right
     field boolean alive;
 
@@ -15,9 +13,7 @@ class Player {
         let x = x_in;
         let y = y_in;
         let width = 20;
-        let height = 20;
-        let prev_x = x;
-        let prev_y = y;
+        let height = 20;        
         let direction = 0;
         let alive = true;
         return this;
@@ -36,33 +32,7 @@ class Player {
         return;
     }
 
-    // Set the direction of movement
-    method void setDirection(int dir) {
-        let direction = dir;
-        return;
-    }
-
-    // Get x-coordinate
-    method int getX() {
-        return x;
-    }
-    // Get y-coordinate
-    method int getY() {
-        return y;
-    }
-    method int getWidth() {
-        return width;
-    }
-    method int getHeight() {
-        return height;
-    }
-
-    // Move the player in the current direction
-    method void move() {                
-        // Store previous position
-        let prev_x = x;
-        let prev_y = y;
-        
+    method void move() {                                
         do remove();
         
         // Up
@@ -89,13 +59,7 @@ class Player {
                 let x = x + 2;
             }
         }
-        
-        // Final boundary check
-        // if (x < 0) { let x = 0; }
-        // if (x > 501) { let x = 501; }
-        // if (y < 0) { let y = 0; }
-        // if (y > 244) { let y = 244; }
-        
+                    
         do draw();
         return;
     }
@@ -106,6 +70,26 @@ class Player {
         // let x = prev_x;
         // let y = prev_y;
         // do draw();
+        return;
+    }
+
+    // Accessors
+    method int getX() {
+        return x;
+    }    
+    method int getY() {
+        return y;
+    }
+    method int getWidth() {
+        return width;
+    }
+    method int getHeight() {
+        return height;
+    }
+
+    // Setter
+    method void setDirection(int dir) {
+        let direction = dir;
         return;
     }
 

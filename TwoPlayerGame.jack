@@ -274,29 +274,19 @@ class TwoPlayerGame {
     // Update the lives display
     method void updateLives() {
         var int i;        
-        do Screen.setColor(false);
-        // Draw player 1 lives (left side)
+        do Screen.setColor(false);        
+        // Draw player 1 lives
         do Output.moveCursor(22, 0);
         do Output.printString(player1Name);
         do Output.printString(" Lives: ");
+        do Output.printInt(lives1);
         
-        let i = 0;
-        while (i < lives1) {            
-            do Output.printChar(42); // Asterisk for life
-            let i = i + 1;            
-        }
-        
-        // Draw player 2 lives (right side)
+        // Draw player 2 lives
         do Output.moveCursor(22, 40);
         do Output.printString(player2Name);
         do Output.printString(" Lives: ");
-        
-        let i = 0;
-        while (i < lives2) {
-            do Output.printChar(42); // Asterisk for life
-            let i = i + 1;
-        }
-        
+        do Output.printInt(2);
+
         return;
     }
     
