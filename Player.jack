@@ -1,7 +1,8 @@
-// Player.jack - Enhanced for outlaw game
 class Player {
     field int x_location;
     field int y_location;
+    field int width;
+    field int height;
     field int prev_x;
     field int prev_y;
     field int direction; // 1 = up, 2 = down, 3 = left, 4 = right
@@ -11,6 +12,8 @@ class Player {
     constructor Player new(int x, int y) {
         let x_location = x;
         let y_location = y;
+        let width = 10;
+        let height = 10;
         let prev_x = x;
         let prev_y = y;
         let direction = 0;
@@ -22,14 +25,14 @@ class Player {
     method void draw() {
         do Screen.setColor(true);
         // Draw a simple 10x10 square for the player
-        do Screen.drawRectangle(x_location, y_location, x_location + 10, y_location + 10);
+        do Screen.drawRectangle(x_location, y_location, x_location + width, y_location + height);
         return;
     }
 
     // Remove the player from the current position
     method void remove() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(x_location, y_location, x_location + 10, y_location + 10);
+        do Screen.drawRectangle(x_location, y_location, x_location + width, y_location + height);
         return;
     }
 
@@ -43,10 +46,15 @@ class Player {
     method int getX() {
         return x_location;
     }
-
     // Get y-coordinate
     method int getY() {
         return y_location;
+    }
+    method int getWidth() {
+        return width;
+    }
+    method int getHeight() {
+        return height;
     }
 
     // Move the player in the current direction

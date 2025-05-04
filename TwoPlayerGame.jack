@@ -19,13 +19,13 @@ class TwoPlayerGame {
         let player1 = Player.new(100, 120);
         let player2 = Player.new(400, 120);
         let cactus = Cactus.new(250, 120); // Centered cactus obstacle
-        let bullet1 = Bullet.new(0, 0, 0); // Initially inactive
+        let bullet1 = Bullet.new(0, 0, 0); 
         let bullet2 = Bullet.new(0, 0, 0);
         let lives1 = 3;
         let lives2 = 3;
         let gameActive = false;
-        let player1Name = String.new(10);
-        let player2Name = String.new(10);
+        //let player1Name = String.new(10);
+        //let player2Name = String.new(10);
         let bullet1Active = false;
         let bullet2Active = false;
         return this;
@@ -164,17 +164,20 @@ class TwoPlayerGame {
             if ((currentKey = 32) & (~bullet2Active)) { // Space key for player 2
                 let bullet2Active = true;
                 // Create new bullet at player's position
-                let bullet2 = Bullet.new(player2.getX(), player2.getY() + 5, 2); // Shoot left
+                let bullet2 = Bullet.new(player2.getX() - 5, player2.getY() + 5, 2); // Shoot left
                 do bullet2.draw();
             }
             
-            if (currentKey = 81) { let exit = true; } // 'q' to quit
+            // press 'q' to quit
+            if (currentKey = 81) { 
+                let exit = true; 
+            }
             
-            // Move the players
+            // Move players
             do player1.move();
             do player2.move();
             
-            // Check for player collision with cactus
+            // Check for cactus collision
             if (checkCactusCollision(player1)) {
                 do player1.moveBack();
             }
@@ -186,19 +189,19 @@ class TwoPlayerGame {
             if (bullet1Active) {
                 do bullet1.move();
                 
-                // Check if bullet hit player 2
-                if (checkBulletHit(bullet1, player2)) {
-                    let lives2 = lives2 - 1;
-                    let bullet1Active = false;
-                    do bullet1.remove();
-                    do updateLives();
-                }
+                // // Check if bullet hit player 2
+                // if (checkBulletHit(bullet1, player2)) {
+                //     let lives2 = lives2 - 1;
+                //     let bullet1Active = false;
+                //     do bullet1.remove();
+                //     do updateLives();
+                // }
                 
-                // Check if bullet hit cactus
-                if (checkBulletCactusHit(bullet1)) {
-                    let bullet1Active = false;
-                    do bullet1.remove();
-                }
+                // // Check if bullet hit cactus
+                // if (checkBulletCactusHit(bullet1)) {
+                //     let bullet1Active = false;
+                //     do bullet1.remove();
+                // }
                 
                 // Check if bullet went off screen
                 if ((bullet1.getX() < 0) | (bullet1.getX() > 511)) {
@@ -209,32 +212,32 @@ class TwoPlayerGame {
             
             if (bullet2Active) {
                 do bullet2.move();
-                
+                    
                 // Check if bullet hit player 1
-                if (checkBulletHit(bullet2, player1)) {
-                    let lives1 = lives1 - 1;
-                    let bullet2Active = false;
-                    do bullet2.remove();
-                    do updateLives();
-                }
+                // if (checkBulletHit(bullet2, player1)) {                    
+                //     let lives1 = lives1 - 1;
+                //     let bullet2Active = false;
+                //     do bullet2.remove();
+                //     do updateLives();
+                // }
                 
                 // Check if bullet hit cactus
-                if (checkBulletCactusHit(bullet2)) {
-                    let bullet2Active = false;
-                    do bullet2.remove();
-                }
+                // if (checkBulletCactusHit(bullet2)) {
+                //     //let bullet2Active = false;
+                //     do bullet2.remove();
+                // }
                 
                 // Check if bullet went off screen
-                if ((bullet2.getX() < 0) | (bullet2.getX() > 511)) {
+                if ((bullet2.getX() < 10) | (bullet2.getX() > 511)) {
                     let bullet2Active = false;
                     do bullet2.remove();
                 }
             }
             
             // Check if game is over (one player out of lives)
-            if ((lives1 < 1) | (lives2 < 1)) {
-                let gameActive = false;
-            }
+            // if ((lives1 < 1) | (lives2 < 1)) {
+            //     let gameActive = false;
+            // }
             
             // Small delay to control game speed
             do Sys.wait(50);
@@ -309,19 +312,14 @@ class TwoPlayerGame {
     
     // Check if a bullet hit a player
     method boolean checkBulletHit(Bullet b, Player p) {
-        var int bulletX, bulletY, playerX, playerY;
-        
-        let bulletX = b.getX();
-        let bulletY = b.getY();
-        let playerX = p.getX();
-        let playerY = p.getY();
-        
-        // Simple collision check
-        if ((bulletX + 3 > playerX) & (bulletX < playerX + 10) & 
-            (bulletY + 2 > playerY) & (bulletY < playerY + 10)) {
+        // AABB Collision detection        
+        if ((b.getX() < p.getX() + p.getWidth()) & 
+        (b.getX() + b.getWidth() > p.getX()) & 
+        (b.getY() < p.getY() + p.getHeight()) & 
+        (b.getY() + b.getHeight() > p.getY())) {                    
             return true;
         }
-        
+
         return false;
     }
     

@@ -1,64 +1,85 @@
-// Bullet class - fixed version
 class Bullet {
-    field int x_location;
-    field int y_location;
-    field int direction; // 1 = right, 2 = left
+    field int x;
+    field int y;
+    field int direction; // 1 moves right, 2 moves left
     field int speed;
+    field int width;
+    field int height;
     
-    // Constructor initializes the bullet at a specific position and direction
-    constructor Bullet new(int x, int y, int dir) {
-        let x_location = x;
-        let y_location = y;
+    constructor Bullet new(int x_in, int y_in, int dir) {        
+        let x = x_in;
+        let y = y_in;
+        let width = 3;
+        let height = 2;
+
         let direction = dir;
-        let speed = 5; // Bullets move faster than players
+        let speed = 5; 
         return this;
     }
-    
-    // Fix the syntax in Bullet.draw() method
-    method void draw() {
-        // Ensure coordinates are within screen bounds
-        if ((x_location < 509) & (y_location < 253)) {
-            do Screen.setColor(true);
-            do Screen.drawRectangle(x_location, y_location, x_location + 3, y_location + 2);
+        
+    // Draws bullet
+    method void draw() {         
+        // Make sure coords are in screen bounds    
+        if ((x < 509) & (y < 253)) {                        
+            do Screen.setColor(true);            
+            do Screen.drawRectangle(x, y, x + width, y + height);
+                    
         }
         return;
     }
 
-    // Also fix the remove() method
-    method void remove() {
-        // Ensure coordinates are within screen bounds
-        if ((x_location < 509) & (y_location < 253)) {
-            do Screen.setColor(false);
-            do Screen.drawRectangle(x_location, y_location, x_location + 3, y_location + 2);
+    // Removes bullet
+    method void remove() {                
+        // Make sure coords are in screen bounds
+        if ((x < 509) & (y < 253)) {            
+            do Screen.setColor(false);      
+            do Screen.drawRectangle(x, y, x + width, y + height);                        
         }
         return;
     }
-        
-    // Move the bullet
+            
     method void move() {
         do remove();
         
-        if (direction = 1) { // Moving right
-            let x_location = x_location + speed;
-            if (x_location > 508) { let x_location = 508; } // Prevent going off-screen
+        //do Output.printString("Before move calc: x="); do Output.printInt(x); do Output.println();        
+        // Move right
+        if (direction = 1) { 
+            let x = x + speed;
+            // Right side screen boundary
+            if (x > 508) { 
+                let x = 508;                 
+            }
         }
-        if (direction = 2) { // Moving left
-            let x_location = x_location - speed;
-            if (x_location < 0) { let x_location = 0; } // Prevent going off-screen
+        // Move left
+        if (direction = 2) {               
+            let x = x - speed;
+            // Left side screen boundary
+            if (x < 0) { 
+                let x = 0;                
+            } 
         }
         
+        // Output.printString("After move calc: x="); do Output.printInt(x); do Output.println();
+
         do draw();
         return;
     }
     
-    // Get x-coordinate
+    // Accessors
     method int getX() {
-        return x_location;
+        return x;
     }
-    
-    // Get y-coordinate
     method int getY() {
-        return y_location;
+        return y;
+    }
+    method int getDir() {
+        return direction;
+    }
+    method int getWidth() {
+        return width;
+    }
+    method int getHeight() {
+        return height;
     }
     
     // Deallocate memory

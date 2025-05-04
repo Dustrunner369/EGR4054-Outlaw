@@ -1,11 +1,15 @@
 function Bullet.new 0
-push constant 4
+push constant 6
 call Memory.alloc 1
 pop pointer 0
 push argument 0
 pop this 0
 push argument 1
 pop this 1
+push constant 3
+pop this 4
+push constant 2
+pop this 5
 push argument 2
 pop this 2
 push constant 5
@@ -32,10 +36,10 @@ pop temp 0
 push this 0
 push this 1
 push this 0
-push constant 3
+push this 4
 add
 push this 1
-push constant 2
+push this 5
 add
 call Screen.drawRectangle 4
 pop temp 0
@@ -61,10 +65,10 @@ pop temp 0
 push this 0
 push this 1
 push this 0
-push constant 3
+push this 4
 add
 push this 1
-push constant 2
+push this 5
 add
 call Screen.drawRectangle 4
 pop temp 0
@@ -131,6 +135,21 @@ function Bullet.getY 0
 push argument 0
 pop pointer 0
 push this 1
+return
+function Bullet.getDir 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Bullet.getWidth 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Bullet.getHeight 0
+push argument 0
+pop pointer 0
+push this 5
 return
 function Bullet.dispose 0
 push argument 0
