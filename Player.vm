@@ -2,17 +2,19 @@ function Player.new 0
 push constant 8
 call Memory.alloc 1
 pop pointer 0
+push constant 2
+pop static 0
 push argument 0
 pop this 0
 push argument 1
 pop this 1
-push constant 10
+push constant 20
 pop this 2
-push constant 10
+push constant 20
 pop this 3
-push argument 0
+push this 0
 pop this 4
-push argument 1
+push this 1
 pop this 5
 push constant 0
 pop this 6
@@ -102,7 +104,9 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push this 1
-push constant 2
+call TwoPlayerGame.getTopBorder 0
+push static 0
+add
 gt
 if-goto IF_TRUE1
 goto IF_FALSE1
@@ -120,7 +124,11 @@ if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
 push this 1
-push constant 240
+call TwoPlayerGame.getBottomBorder 0
+push this 3
+sub
+push static 0
+sub
 lt
 if-goto IF_TRUE3
 goto IF_FALSE3
@@ -138,7 +146,9 @@ if-goto IF_TRUE4
 goto IF_FALSE4
 label IF_TRUE4
 push this 0
-push constant 2
+call TwoPlayerGame.getLeftBorder 0
+push static 0
+add
 gt
 if-goto IF_TRUE5
 goto IF_FALSE5
@@ -156,7 +166,11 @@ if-goto IF_TRUE6
 goto IF_FALSE6
 label IF_TRUE6
 push this 0
-push constant 499
+call TwoPlayerGame.getRightBorder 0
+push this 2
+sub
+push static 0
+sub
 lt
 if-goto IF_TRUE7
 goto IF_FALSE7
@@ -167,42 +181,6 @@ add
 pop this 0
 label IF_FALSE7
 label IF_FALSE6
-push this 0
-push constant 0
-lt
-if-goto IF_TRUE8
-goto IF_FALSE8
-label IF_TRUE8
-push constant 0
-pop this 0
-label IF_FALSE8
-push this 0
-push constant 501
-gt
-if-goto IF_TRUE9
-goto IF_FALSE9
-label IF_TRUE9
-push constant 501
-pop this 0
-label IF_FALSE9
-push this 1
-push constant 0
-lt
-if-goto IF_TRUE10
-goto IF_FALSE10
-label IF_TRUE10
-push constant 0
-pop this 1
-label IF_FALSE10
-push this 1
-push constant 244
-gt
-if-goto IF_TRUE11
-goto IF_FALSE11
-label IF_TRUE11
-push constant 244
-pop this 1
-label IF_FALSE11
 push pointer 0
 call Player.draw 1
 pop temp 0

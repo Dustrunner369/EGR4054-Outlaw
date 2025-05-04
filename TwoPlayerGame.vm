@@ -2,6 +2,10 @@ function TwoPlayerGame.new 0
 push constant 12
 call Memory.alloc 1
 pop pointer 0
+push constant 511
+pop static 0
+push constant 254
+pop static 1
 push constant 100
 push constant 120
 call Player.new 2
@@ -20,10 +24,28 @@ push constant 3
 pop this 6
 push constant 0
 pop this 7
+push constant 10
+call String.new 1
+pop this 8
+push constant 10
+call String.new 1
+pop this 9
 push constant 0
 pop this 10
 push constant 0
 pop this 11
+push constant 25
+pop static 2
+push static 0
+push constant 24
+sub
+pop static 3
+push static 1
+push constant 25
+sub
+pop static 4
+push constant 25
+pop static 5
 push pointer 0
 return
 function TwoPlayerGame.showStartMenu 2
@@ -814,25 +836,27 @@ call Bullet.move 1
 pop temp 0
 push pointer 0
 push this 3
-call TwoPlayerGame.checkBulletCactusHit 2
+push this 1
+call TwoPlayerGame.checkBulletHit 3
 if-goto IF_TRUE14
 goto IF_FALSE14
 label IF_TRUE14
+push this 6
+push constant 1
+sub
+pop this 6
 push constant 0
 pop this 10
 push this 3
 call Bullet.remove 1
 pop temp 0
+push pointer 0
+call TwoPlayerGame.updateLives 1
+pop temp 0
 label IF_FALSE14
+push pointer 0
 push this 3
-call Bullet.getX 1
-push constant 0
-lt
-push this 3
-call Bullet.getX 1
-push constant 500
-gt
-or
+call TwoPlayerGame.checkBulletCactusHit 2
 if-goto IF_TRUE15
 goto IF_FALSE15
 label IF_TRUE15
@@ -842,45 +866,75 @@ push this 3
 call Bullet.remove 1
 pop temp 0
 label IF_FALSE15
-label IF_FALSE13
-push this 11
+push this 3
+call Bullet.getX 1
+push static 3
+gt
 if-goto IF_TRUE16
 goto IF_FALSE16
 label IF_TRUE16
+push constant 0
+pop this 10
+push this 3
+call Bullet.remove 1
+pop temp 0
+label IF_FALSE16
+label IF_FALSE13
+push this 11
+if-goto IF_TRUE17
+goto IF_FALSE17
+label IF_TRUE17
 push this 4
 call Bullet.move 1
 pop temp 0
 push pointer 0
 push this 4
-call TwoPlayerGame.checkBulletCactusHit 2
-if-goto IF_TRUE17
-goto IF_FALSE17
-label IF_TRUE17
-push constant 0
-pop this 11
-push this 4
-call Bullet.remove 1
-pop temp 0
-label IF_FALSE17
-push this 4
-call Bullet.getX 1
-push constant 10
-lt
-push this 4
-call Bullet.getX 1
-push constant 511
-gt
-or
+push this 0
+call TwoPlayerGame.checkBulletHit 3
 if-goto IF_TRUE18
 goto IF_FALSE18
 label IF_TRUE18
+push this 5
+push constant 1
+sub
+pop this 5
 push constant 0
 pop this 11
 push this 4
 call Bullet.remove 1
 pop temp 0
+push pointer 0
+call TwoPlayerGame.updateLives 1
+pop temp 0
 label IF_FALSE18
-label IF_FALSE16
+push pointer 0
+push this 4
+call TwoPlayerGame.checkBulletCactusHit 2
+if-goto IF_TRUE19
+goto IF_FALSE19
+label IF_TRUE19
+push constant 0
+pop this 11
+push this 4
+call Bullet.remove 1
+pop temp 0
+label IF_FALSE19
+push this 4
+call Bullet.getX 1
+push static 5
+push constant 5
+add
+lt
+if-goto IF_TRUE20
+goto IF_FALSE20
+label IF_TRUE20
+push constant 0
+pop this 11
+push this 4
+call Bullet.remove 1
+pop temp 0
+label IF_FALSE20
+label IF_FALSE17
 push this 5
 push constant 1
 lt
@@ -888,12 +942,18 @@ push this 6
 push constant 1
 lt
 or
-if-goto IF_TRUE19
-goto IF_FALSE19
-label IF_TRUE19
+if-goto IF_TRUE21
+goto IF_FALSE21
+label IF_TRUE21
 push constant 0
 pop this 7
-label IF_FALSE19
+label IF_FALSE21
+push this 2
+call Cactus.dispose 1
+pop temp 0
+push this 2
+call Cactus.draw 1
+pop temp 0
 push constant 50
 call Sys.wait 1
 pop temp 0
@@ -916,26 +976,26 @@ call Screen.setColor 1
 pop temp 0
 push constant 0
 push constant 0
-push constant 511
-push constant 0
+push static 0
+push static 2
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 push constant 0
-push constant 0
-push constant 254
+push static 5
+push static 1
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
-push constant 254
-push constant 511
-push constant 254
+push static 4
+push static 0
+push static 1
 call Screen.drawRectangle 4
 pop temp 0
-push constant 511
+push static 3
 push constant 0
-push constant 511
-push constant 254
+push static 0
+push static 1
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
@@ -943,6 +1003,9 @@ return
 function TwoPlayerGame.updateLives 1
 push argument 0
 pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
 push constant 22
 push constant 0
 call Output.moveCursor 2
@@ -1101,10 +1164,10 @@ push argument 1
 call Bullet.getX 1
 push argument 2
 call Player.getX 1
-lt
 push argument 2
 call Player.getWidth 1
 add
+lt
 push argument 1
 call Bullet.getX 1
 push argument 1
@@ -1118,10 +1181,10 @@ push argument 1
 call Bullet.getY 1
 push argument 2
 call Player.getY 1
-lt
 push argument 2
 call Player.getHeight 1
 add
+lt
 and
 push argument 1
 call Bullet.getY 1
@@ -1403,6 +1466,24 @@ push constant 3000
 call Sys.wait 1
 pop temp 0
 push constant 0
+return
+function TwoPlayerGame.getScreenHeight 0
+push static 1
+return
+function TwoPlayerGame.getScreenWidth 0
+push static 0
+return
+function TwoPlayerGame.getTopBorder 0
+push static 2
+return
+function TwoPlayerGame.getRightBorder 0
+push static 3
+return
+function TwoPlayerGame.getBottomBorder 0
+push static 4
+return
+function TwoPlayerGame.getLeftBorder 0
+push static 5
 return
 function TwoPlayerGame.dispose 0
 push argument 0

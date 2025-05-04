@@ -1,6 +1,6 @@
 class Player {
-    field int x_location;
-    field int y_location;
+    field int x;
+    field int y;
     field int width;
     field int height;
     field int prev_x;
@@ -8,12 +8,14 @@ class Player {
     field int direction; // 1 = up, 2 = down, 3 = left, 4 = right
     field boolean alive;
 
-    // Constructor initializes the player at the specified position
-    constructor Player new(int x, int y) {
-        let x_location = x;
-        let y_location = y;
-        let width = 10;
-        let height = 10;
+    static int BOUNDARY_BUFFER;
+    
+    constructor Player new(int x_in, int y_in) {
+        let BOUNDARY_BUFFER = 2;
+        let x = x_in;
+        let y = y_in;
+        let width = 20;
+        let height = 20;
         let prev_x = x;
         let prev_y = y;
         let direction = 0;
@@ -21,18 +23,16 @@ class Player {
         return this;
     }
 
-    // Draw the player (outlaw) on the screen
     method void draw() {
-        do Screen.setColor(true);
-        // Draw a simple 10x10 square for the player
-        do Screen.drawRectangle(x_location, y_location, x_location + width, y_location + height);
+        do Screen.setColor(true);        
+        do Screen.drawRectangle(x, y, x + width, y + height);
         return;
     }
 
     // Remove the player from the current position
     method void remove() {
         do Screen.setColor(false);
-        do Screen.drawRectangle(x_location, y_location, x_location + width, y_location + height);
+        do Screen.drawRectangle(x, y, x + width, y + height);
         return;
     }
 
@@ -44,11 +44,11 @@ class Player {
 
     // Get x-coordinate
     method int getX() {
-        return x_location;
+        return x;
     }
     // Get y-coordinate
     method int getY() {
-        return y_location;
+        return y;
     }
     method int getWidth() {
         return width;
@@ -58,39 +58,43 @@ class Player {
     }
 
     // Move the player in the current direction
-    method void move() {
+    method void move() {                
         // Store previous position
-        let prev_x = x_location;
-        let prev_y = y_location;
+        let prev_x = x;
+        let prev_y = y;
         
         do remove();
         
-        if (direction = 1) { // Up
-            if (y_location > 2) {
-                let y_location = y_location - 2;
+        // Up
+        if (direction = 1) {           
+            if (y > (TwoPlayerGame.getTopBorder() + BOUNDARY_BUFFER)) {
+                let y = y - 2;
             }
         }
-        if (direction = 2) { // Down
-            if (y_location < 240) { // Keep away from bottom edge
-                let y_location = y_location + 2;
+        // Down
+        if (direction = 2) {            
+            if (y < (TwoPlayerGame.getBottomBorder() - height - BOUNDARY_BUFFER)) {
+                let y = y + 2;
             }
         }
-        if (direction = 3) { // Left
-            if (x_location > 2) {
-                let x_location = x_location - 2;
+        // Left
+        if (direction = 3) {
+            if (x > (TwoPlayerGame.getLeftBorder() + BOUNDARY_BUFFER)) {
+                let x = x - 2;
             }
         }
-        if (direction = 4) { // Right
-            if (x_location < 499) { // Keep away from right edge
-                let x_location = x_location + 2;
+        // Right
+        if (direction = 4) {
+            if (x < (TwoPlayerGame.getRightBorder() - width - BOUNDARY_BUFFER)) {
+                let x = x + 2;
             }
         }
         
         // Final boundary check
-        if (x_location < 0) { let x_location = 0; }
-        if (x_location > 501) { let x_location = 501; }
-        if (y_location < 0) { let y_location = 0; }
-        if (y_location > 244) { let y_location = 244; }
+        // if (x < 0) { let x = 0; }
+        // if (x > 501) { let x = 501; }
+        // if (y < 0) { let y = 0; }
+        // if (y > 244) { let y = 244; }
         
         do draw();
         return;
@@ -99,8 +103,8 @@ class Player {
     // Move back to previous position (for collision handling)
     method void moveBack() {
         // do remove();
-        // let x_location = prev_x;
-        // let y_location = prev_y;
+        // let x = prev_x;
+        // let y = prev_y;
         // do draw();
         return;
     }

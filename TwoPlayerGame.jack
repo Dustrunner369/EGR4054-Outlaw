@@ -11,9 +11,19 @@ class TwoPlayerGame {
     field String player2Name;
     field boolean bullet1Active;
     field boolean bullet2Active;
-    
+
+    static int SCREEN_WIDTH;
+    static int SCREEN_HEIGHT;
+    static int topBorder;
+    static int rightBorder;
+    static int bottomBorder;
+    static int leftBorder;
+
     // Constructor initializes the game
     constructor TwoPlayerGame new() {
+        let SCREEN_WIDTH = 511;
+        let SCREEN_HEIGHT = 254;
+
         // Initialize players on opposite sides
         let player1 = Player.new(100, 120);
         let player2 = Player.new(400, 120);
@@ -21,14 +31,20 @@ class TwoPlayerGame {
         let lives1 = 3;
         let lives2 = 3;
         let gameActive = false;
-        //let player1Name = String.new(10);
-        //let player2Name = String.new(10);
+        let player1Name = String.new(10);
+        let player2Name = String.new(10);
         let bullet1Active = false;
         let bullet2Active = false;
+        
+        // Black borders on game screen.
+        let topBorder = 25;
+        let rightBorder = (SCREEN_WIDTH - 24);
+        let bottomBorder = (SCREEN_HEIGHT - 25);
+        let leftBorder = 25;
+
         return this;
     }
-    
-    // Show start menu
+        
     method void showStartMenu() {
         var char key;
         var boolean exit;
@@ -185,91 +201,89 @@ class TwoPlayerGame {
             if (bullet1Active) {
                 do bullet1.move();
                 
-                // // Check if bullet hit player 2
-                // if (checkBulletHit(bullet1, player2)) {
-                //     let lives2 = lives2 - 1;
-                //     let bullet1Active = false;
-                //     do bullet1.remove();
-                //     do updateLives();
-                // }
-                
-                // Check if bullet hit cactus
+                // Check collisions
+                if (checkBulletHit(bullet1, player2)) {
+                    let lives2 = lives2 - 1;
+                    let bullet1Active = false;
+                    do bullet1.remove();
+                    do updateLives();
+                }                                
                 if (checkBulletCactusHit(bullet1)) {
                     let bullet1Active = false;
                     do bullet1.remove();
                 }
                 
                 // Check if bullet went off screen
-                if ((bullet1.getX() < 0) | (bullet1.getX() > 500)) {
+                if (bullet1.getX() > rightBorder) {
                     let bullet1Active = false;
                     do bullet1.remove();
                 }
-            }
-            
+            }            
             if (bullet2Active) {
                 do bullet2.move();
                     
-                // Check if bullet hit player 1
-                // if (checkBulletHit(bullet2, player1)) {                    
-                //     let lives1 = lives1 - 1;
-                //     let bullet2Active = false;
-                //     do bullet2.remove();
-                //     do updateLives();
-                // }
-                
-                // Check if bullet hit cactus                
+                // Check collisions
+                if (checkBulletHit(bullet2, player1)) {                    
+                    let lives1 = lives1 - 1;
+                    let bullet2Active = false;
+                    do bullet2.remove();
+                    do updateLives();
+                }                            
                 if (checkBulletCactusHit(bullet2)) {
                     let bullet2Active = false;
                     do bullet2.remove();
                 }
                 
                 // Check if bullet went off screen
-                if ((bullet2.getX() < 10) | (bullet2.getX() > 511)) {
+                if (bullet2.getX() < (leftBorder + 5)) {
                     let bullet2Active = false;
                     do bullet2.remove();
                 }
             }
             
-            // Check if game is over (one player out of lives)
+            // Check for game over
             if ((lives1 < 1) | (lives2 < 1)) {
                 let gameActive = false;
             }
-            
-            // Small delay to control game speed
+                        
+            // Redraw cactus
+            do cactus.dispose();
+            do cactus.draw(); 
+
+            // Small delay to control game speed                       
             do Sys.wait(50);
         }
         
-        // Game over screen
-        do showGameOver();
-        
-        // Clean up
+        // End game
+        do showGameOver();                
         do dispose();
+
         return;
     }
     
-    // Draw the game borders
+    // Draw borders
     method void drawBorders() {
         do Screen.setColor(true);
-        do Screen.drawRectangle(0, 0, 511, 0); // Top
-        do Screen.drawRectangle(0, 0, 0, 254); // Left
-        do Screen.drawRectangle(0, 254, 511, 254); // Bottom
-        do Screen.drawRectangle(511, 0, 511, 254); // Right
+        do Screen.drawRectangle(0, 0, SCREEN_WIDTH, topBorder); // Top Border
+        do Screen.drawRectangle(0, 0, leftBorder, SCREEN_HEIGHT); // Left Border
+        do Screen.drawRectangle(0, bottomBorder, SCREEN_WIDTH, SCREEN_HEIGHT); // Bottom Border
+        do Screen.drawRectangle(rightBorder, 0, SCREEN_WIDTH, SCREEN_HEIGHT); // Right Border
         return;
     }
     
     // Update the lives display
     method void updateLives() {
-        var int i;
-        
+        var int i;        
+        do Screen.setColor(false);
         // Draw player 1 lives (left side)
         do Output.moveCursor(22, 0);
         do Output.printString(player1Name);
         do Output.printString(" Lives: ");
         
         let i = 0;
-        while (i < lives1) {
+        while (i < lives1) {            
             do Output.printChar(42); // Asterisk for life
-            let i = i + 1;
+            let i = i + 1;            
         }
         
         // Draw player 2 lives (right side)
@@ -309,13 +323,10 @@ class TwoPlayerGame {
     // Check if a bullet hit a player
     method boolean checkBulletHit(Bullet b, Player p) {
         // AABB Collision detection  
-
-        
-
-        if ((b.getX() < p.getX() + p.getWidth()) & 
-        (b.getX() + b.getWidth() > p.getX()) & 
-        (b.getY() < p.getY() + p.getHeight()) & 
-        (b.getY() + b.getHeight() > p.getY())) {                    
+        if ((b.getX() < (p.getX() + p.getWidth())) & 
+        ((b.getX() + b.getWidth()) > p.getX()) & 
+        (b.getY() < (p.getY() + p.getHeight())) & 
+        ((b.getY() + b.getHeight()) > p.getY())) {                    
             return true;
         }
 
@@ -324,7 +335,7 @@ class TwoPlayerGame {
     
     // Check if a bullet hit the cactus
     method boolean checkBulletCactusHit(Bullet b) {                        
-        // Check for collision
+        // AABB Collision detection
         if ((b.getX() < (cactus.getX() + cactus.getWidth())) & 
         ((b.getX() + b.getWidth()) > cactus.getX()) & 
         (b.getY() < (cactus.getY() + cactus.getHeight())) & 
@@ -373,6 +384,28 @@ class TwoPlayerGame {
         return;
     }
     
+
+    // Accessors
+    function int getScreenHeight() {
+        return SCREEN_HEIGHT;
+    }
+    function int getScreenWidth() {
+        return SCREEN_WIDTH;
+    }
+    function int getTopBorder() {
+        return topBorder;
+    }
+    function int getRightBorder() {
+        return rightBorder;
+    }
+    function int getBottomBorder() {
+        return bottomBorder;
+    }
+    function int getLeftBorder() {
+        return leftBorder;
+    }
+
+
     // Deallocate memory
     method void dispose() {
         do player1.dispose();

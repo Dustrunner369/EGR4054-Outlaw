@@ -6,9 +6,9 @@ push argument 0
 pop this 0
 push argument 1
 pop this 1
-push constant 3
+push constant 5
 pop this 4
-push constant 2
+push constant 3
 pop this 5
 push argument 2
 pop this 2
@@ -20,10 +20,14 @@ function Bullet.draw 0
 push argument 0
 pop pointer 0
 push this 0
-push constant 509
+call TwoPlayerGame.getRightBorder 0
+push constant 2
+sub
 lt
 push this 1
-push constant 253
+call TwoPlayerGame.getBottomBorder 0
+push constant 2
+sub
 lt
 and
 if-goto IF_TRUE0
@@ -50,10 +54,14 @@ function Bullet.remove 0
 push argument 0
 pop pointer 0
 push this 0
-push constant 509
+call TwoPlayerGame.getRightBorder 0
+push constant 2
+sub
 lt
 push this 1
-push constant 253
+call TwoPlayerGame.getBottomBorder 0
+push constant 2
+sub
 lt
 and
 if-goto IF_TRUE0
