@@ -91,36 +91,18 @@ push this 0
 push this 3
 add
 pop this 0
-push this 0
-push constant 508
-gt
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push constant 508
-pop this 0
-label IF_FALSE1
 label IF_FALSE0
 push this 2
 push constant 2
 eq
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
 push this 0
 push this 3
 sub
 pop this 0
-push this 0
-push constant 0
-lt
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
-push constant 0
-pop this 0
-label IF_FALSE3
-label IF_FALSE2
+label IF_FALSE1
 push pointer 0
 call Bullet.draw 1
 pop temp 0

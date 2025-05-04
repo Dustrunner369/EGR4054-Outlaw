@@ -204,7 +204,7 @@ class TwoPlayerGame {
                 // }
                 
                 // Check if bullet went off screen
-                if ((bullet1.getX() < 0) | (bullet1.getX() > 511)) {
+                if ((bullet1.getX() < 0) | (bullet1.getX() > 500)) {
                     let bullet1Active = false;
                     do bullet1.remove();
                 }
@@ -221,11 +221,11 @@ class TwoPlayerGame {
                 //     do updateLives();
                 // }
                 
-                // Check if bullet hit cactus
-                // if (checkBulletCactusHit(bullet2)) {
-                //     //let bullet2Active = false;
-                //     do bullet2.remove();
-                // }
+                // Check if bullet hit cactus                
+                if (checkBulletCactusHit(bullet2)) {
+                    //let bullet2Active = false;
+                    //do bullet2.remove();
+                }
                 
                 // Check if bullet went off screen
                 if ((bullet2.getX() < 10) | (bullet2.getX() > 511)) {
@@ -235,9 +235,9 @@ class TwoPlayerGame {
             }
             
             // Check if game is over (one player out of lives)
-            // if ((lives1 < 1) | (lives2 < 1)) {
-            //     let gameActive = false;
-            // }
+            if ((lives1 < 1) | (lives2 < 1)) {
+                let gameActive = false;
+            }
             
             // Small delay to control game speed
             do Sys.wait(50);
@@ -312,7 +312,10 @@ class TwoPlayerGame {
     
     // Check if a bullet hit a player
     method boolean checkBulletHit(Bullet b, Player p) {
-        // AABB Collision detection        
+        // AABB Collision detection  
+
+        
+
         if ((b.getX() < p.getX() + p.getWidth()) & 
         (b.getX() + b.getWidth() > p.getX()) & 
         (b.getY() < p.getY() + p.getHeight()) & 
@@ -324,22 +327,22 @@ class TwoPlayerGame {
     }
     
     // Check if a bullet hit the cactus
-    method boolean checkBulletCactusHit(Bullet b) {
-        var int bulletX, bulletY, cactusX, cactusY, cactusWidth, cactusHeight;
-        
-        let bulletX = b.getX();
-        let bulletY = b.getY();
-        let cactusX = cactus.getX();
-        let cactusY = cactus.getY();
-        let cactusWidth = cactus.getWidth();
-        let cactusHeight = cactus.getHeight();
-        
+    method boolean checkBulletCactusHit(Bullet b) {                        
         // Check for collision
-        if ((bulletX + 3 > cactusX) & (bulletX < cactusX + cactusWidth) & 
-            (bulletY + 2 > cactusY) & (bulletY < cactusY + cactusHeight)) {
-            return true;
+        if((b.getX() < cactus.getX() + 25)) {
+            // do Output.printString("Bullet Y: y="); do Output.printInt(b.getY()); do Output.println();
+            // do Output.printString("Cactus Y: y="); do Output.printInt(cactus.getY()); do Output.println();
+            //do Output.printString("Bullet X:"); do Output.printInt(b.getX()); do Output.println();
+            do Output.printString("Cactus:"); do Output.printInt(cactus.getX() + 25); do Output.println();
         }
         
+        if ((b.getX() < cactus.getX() + cactus.getWidth()) & 
+        (b.getX() + b.getWidth() > cactus.getX()) & 
+        (b.getY() < cactus.getY() + cactus.getHeight()) & 
+        (b.getY() + b.getHeight() > cactus.getY())) { 
+                               
+            return true;
+        }        
         return false;
     }
     

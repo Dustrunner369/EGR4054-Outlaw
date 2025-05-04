@@ -98,10 +98,10 @@ class Player {
     
     // Move back to previous position (for collision handling)
     method void moveBack() {
-        do remove();
-        let x_location = prev_x;
-        let y_location = prev_y;
-        do draw();
+        // do remove();
+        // let x_location = prev_x;
+        // let y_location = prev_y;
+        // do draw();
         return;
     }
 

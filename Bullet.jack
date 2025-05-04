@@ -22,8 +22,7 @@ class Bullet {
         // Make sure coords are in screen bounds    
         if ((x < 509) & (y < 253)) {                        
             do Screen.setColor(true);            
-            do Screen.drawRectangle(x, y, x + width, y + height);
-                    
+            do Screen.drawRectangle(x, y, x + width, y + height);                    
         }
         return;
     }
@@ -40,27 +39,16 @@ class Bullet {
             
     method void move() {
         do remove();
-        
-        //do Output.printString("Before move calc: x="); do Output.printInt(x); do Output.println();        
+                    
         // Move right
         if (direction = 1) { 
-            let x = x + speed;
-            // Right side screen boundary
-            if (x > 508) { 
-                let x = 508;                 
-            }
+            let x = x + speed;            
         }
         // Move left
         if (direction = 2) {               
-            let x = x - speed;
-            // Left side screen boundary
-            if (x < 0) { 
-                let x = 0;                
-            } 
+            let x = x - speed;                    
         }
         
-        // Output.printString("After move calc: x="); do Output.printInt(x); do Output.println();
-
         do draw();
         return;
     }
