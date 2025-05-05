@@ -1,4 +1,5 @@
 class TwoPlayerGame {
+    // Member variables
     field Player player1;
     field Player player2;
     field Cactus cactus;
@@ -12,22 +13,22 @@ class TwoPlayerGame {
     field boolean bullet1Active;
     field boolean bullet2Active;
 
+    // Static properties    
     static int SCREEN_WIDTH;
     static int SCREEN_HEIGHT;
     static int topBorder;
     static int rightBorder;
     static int bottomBorder;
     static int leftBorder;
-
-    // Constructor initializes the game
+    
     constructor TwoPlayerGame new() {
         let SCREEN_WIDTH = 511;
         let SCREEN_HEIGHT = 254;
 
-        // Initialize players on opposite sides
+        // Initialize players
         let player1 = Player.new(100, 120);
         let player2 = Player.new(400, 120);
-        let cactus = Cactus.new(250, 120); // Centered cactus obstacle            
+        let cactus = Cactus.new(250, 120); 
         let lives1 = 3;
         let lives2 = 3;
         let gameActive = false;
@@ -57,9 +58,9 @@ class TwoPlayerGame {
         do Output.moveCursor(9, 20);
         do Output.printString("Controls:");
         do Output.moveCursor(10, 20);
-        do Output.printString("Player 1: Arrow Keys, M to shoot");
+        do Output.printString("Player 1: WASD, Space to shoot");
         do Output.moveCursor(11, 20);
-        do Output.printString("Player 2: WASD, Space to shoot");
+        do Output.printString("Player 2: Arrow Keys, M to shoot");
         do Output.moveCursor(13, 20);
         do Output.printString("Press Q anytime to quit");
         
@@ -72,15 +73,14 @@ class TwoPlayerGame {
             do Sys.wait(50);
         }
         
-        // Wait until space is released
+        // Wait until space is let go
         while (Keyboard.keyPressed() = 32) {
             do Sys.wait(50);
         }
         
         return;
     }
-    
-    // Get player names
+        
     method void getPlayerNames() {
         var String inputName;
         
@@ -132,15 +132,14 @@ class TwoPlayerGame {
     method void start() {
         var char currentKey;
         var boolean exit;
-        
-        // Show the start menu and get player names
+                
         do showStartMenu();
         do getPlayerNames();
         
         let exit = false;
         let gameActive = true;
         
-        // Draw the initial game state
+        // Draw initial game
         do Screen.clearScreen();
         do drawBorders();
         do player1.draw();
@@ -153,34 +152,31 @@ class TwoPlayerGame {
             // Handle keyboard input
             let currentKey = Keyboard.keyPressed();
             
-            // Player 1 controls (arrow keys + M to shoot)
-            if (currentKey = 131) { do player1.setDirection(1); } // Up arrow
-            if (currentKey = 133) { do player1.setDirection(2); } // Down arrow
-            if (currentKey = 130) { do player1.setDirection(3); } // Left arrow
-            if (currentKey = 132) { do player1.setDirection(4); } // Right arrow
+            // Player 1 controls (WASD + Space to shoot)
+            if (currentKey = 87) { do player1.setDirection(1); } // W
+            if (currentKey = 83) { do player1.setDirection(2); } // S
+            if (currentKey = 65) { do player1.setDirection(3); } // A
+            if (currentKey = 68) { do player1.setDirection(4); } // D
+
+            // Player 2 controls (arrow keys + M to shoot)
+            if (currentKey = 131) { do player2.setDirection(1); } // Up arrow
+            if (currentKey = 133) { do player2.setDirection(2); } // Down arrow
+            if (currentKey = 130) { do player2.setDirection(3); } // Left arrow
+            if (currentKey = 132) { do player2.setDirection(4); } // Right arrow
             
-            // Player 2 controls (WASD + Space to shoot)
-            if (currentKey = 87) { do player2.setDirection(1); } // W
-            if (currentKey = 83) { do player2.setDirection(2); } // S
-            if (currentKey = 65) { do player2.setDirection(3); } // A
-            if (currentKey = 68) { do player2.setDirection(4); } // D
-            
-            // Shooting controls - make sure bullet isn't already active
-            if ((currentKey = 77) & (~bullet1Active)) { // M key for player 1
-                let bullet1Active = true;
-                // Create new bullet at player's position
-                let bullet1 = Bullet.new(player1.getX() + 10, player1.getY() + 5, 1); // Shoot right
+            // Bullet controls
+            if ((currentKey = 32) & (~bullet1Active)) { // Space key for player 1
+                let bullet1Active = true;                
+                let bullet1 = Bullet.new(player1.getX() + 10, player1.getY() + 5, 1);
                 do bullet1.draw();
-            }
-            
-            if ((currentKey = 32) & (~bullet2Active)) { // Space key for player 2
-                let bullet2Active = true;
-                // Create new bullet at player's position
+            }            
+            if ((currentKey = 77) & (~bullet2Active)) { // M key for player 2
+                let bullet2Active = true;                
                 let bullet2 = Bullet.new(player2.getX() - 5, player2.getY() + 5, 2); // Shoot left
                 do bullet2.draw();
             }
             
-            // press 'q' to quit
+            // Press 'q' to quit
             if (currentKey = 81) { 
                 let exit = true; 
             }
@@ -188,15 +184,7 @@ class TwoPlayerGame {
             // Move players
             do player1.move();
             do player2.move();
-            
-            // Check for cactus collision
-            if (checkCactusCollision(player1)) {
-                do player1.moveBack();
-            }
-            if (checkCactusCollision(player2)) {
-                do player2.moveBack();
-            }
-            
+                                    
             // Move bullets and check collisions
             if (bullet1Active) {
                 do bullet1.move();
@@ -285,31 +273,11 @@ class TwoPlayerGame {
         do Output.moveCursor(22, 40);
         do Output.printString(player2Name);
         do Output.printString(" Lives: ");
-        do Output.printInt(2);
+        do Output.printInt(lives2);
 
         return;
     }
-    
-    // Check if a player collides with the cactus
-    method boolean checkCactusCollision(Player p) {
-        var int playerX, playerY, cactusX, cactusY, cactusWidth, cactusHeight;
         
-        let playerX = p.getX();
-        let playerY = p.getY();
-        let cactusX = cactus.getX();
-        let cactusY = cactus.getY();
-        let cactusWidth = cactus.getWidth();
-        let cactusHeight = cactus.getHeight();
-        
-        // Check for collision (expand cactus hitbox slightly)
-        if ((playerX + 10 > cactusX - 2) & (playerX < cactusX + cactusWidth + 2) & 
-            (playerY + 10 > cactusY - 2) & (playerY < cactusY + cactusHeight + 2)) {
-            return true;
-        }
-        
-        return false;
-    }
-    
     // Check if a bullet hit a player
     method boolean checkBulletHit(Bullet b, Player p) {
         // AABB Collision detection  
@@ -334,8 +302,7 @@ class TwoPlayerGame {
         }        
         return false;
     }
-    
-    // Show game over screen
+        
     method void showGameOver() {
         var String winner;
         

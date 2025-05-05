@@ -25,7 +25,7 @@ class Player {
         return;
     }
 
-    // Remove the player from the current position
+    // Removes the player
     method void remove() {
         do Screen.setColor(false);
         do Screen.drawRectangle(x, y, x + width, y + height);
@@ -64,15 +64,6 @@ class Player {
         return;
     }
     
-    // Move back to previous position (for collision handling)
-    method void moveBack() {
-        // do remove();
-        // let x = prev_x;
-        // let y = prev_y;
-        // do draw();
-        return;
-    }
-
     // Accessors
     method int getX() {
         return x;

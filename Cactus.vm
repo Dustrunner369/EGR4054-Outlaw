@@ -32,14 +32,6 @@ add
 call Screen.drawRectangle 4
 pop temp 0
 push this 0
-push this 0
-lt
-push constant 10
-add
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push this 0
 push this 1
 push constant 15
 add
@@ -51,15 +43,6 @@ push constant 20
 add
 call Screen.drawRectangle 4
 pop temp 0
-label IF_FALSE0
-push this 0
-push this 0
-lt
-push constant 5
-add
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
 push this 0
 push this 1
 push constant 5
@@ -72,17 +55,6 @@ push constant 15
 add
 call Screen.drawRectangle 4
 pop temp 0
-label IF_FALSE1
-push this 0
-push constant 15
-add
-push this 0
-lt
-push this 2
-add
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
 push this 0
 push constant 15
 add
@@ -97,17 +69,6 @@ push constant 15
 add
 call Screen.drawRectangle 4
 pop temp 0
-label IF_FALSE2
-push this 0
-push constant 20
-add
-push this 0
-lt
-push constant 25
-add
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
 push this 0
 push constant 20
 add
@@ -122,7 +83,6 @@ push constant 25
 add
 call Screen.drawRectangle 4
 pop temp 0
-label IF_FALSE3
 push constant 0
 return
 function Cactus.getX 0

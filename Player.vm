@@ -151,11 +151,6 @@ call Player.draw 1
 pop temp 0
 push constant 0
 return
-function Player.moveBack 0
-push argument 0
-pop pointer 0
-push constant 0
-return
 function Player.getX 0
 push argument 0
 pop pointer 0
