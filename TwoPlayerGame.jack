@@ -45,7 +45,8 @@ class TwoPlayerGame {
 
         return this;
     }
-        
+    
+    //Start Menu Page
     method void showStartMenu() {
         var char key;
         var boolean exit;
@@ -94,7 +95,7 @@ class TwoPlayerGame {
         let inputName = Keyboard.readLine("");
         if (inputName.length() > 0) {
             let player1Name = inputName;
-        } else {
+        } else {    //Default player1 name
             let player1Name = String.new(8);
             do player1Name.appendChar(80); // P
             do player1Name.appendChar(108); // l
@@ -114,7 +115,7 @@ class TwoPlayerGame {
         let inputName = Keyboard.readLine("");
         if (inputName.length() > 0) {
             let player2Name = inputName;
-        } else {
+        } else {        //Default player2 name
             let player2Name = String.new(8);
             do player2Name.appendChar(80); // P
             do player2Name.appendChar(108); // l
@@ -229,7 +230,7 @@ class TwoPlayerGame {
                 }
             }
             
-            // Check for game over
+            // Check for game over if lives = 0
             if ((lives1 < 1) | (lives2 < 1)) {
                 let gameActive = false;
             }
@@ -302,7 +303,8 @@ class TwoPlayerGame {
         }        
         return false;
     }
-        
+    
+    //Game Over page when winner
     method void showGameOver() {
         var String winner;
         

@@ -1,9 +1,11 @@
 class Cactus {
+    //Cactus Vars
     field int x;
     field int y;
     field int width;
     field int height;
     
+    //Constructor for THE Cactus
     constructor Cactus new(int x_in, int y_in) {
         let x = x_in;
         let y = y_in;
@@ -11,8 +13,9 @@ class Cactus {
         let height = 40;
         return this;
     }
-        
-    method void draw() {        
+    
+    //Draw Cactus 
+    method void draw() {
         do Screen.setColor(true);
     
         // Central stem

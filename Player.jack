@@ -1,13 +1,16 @@
 class Player {
+    //Setting Player Vars
     field int x;
     field int y;
     field int width;
     field int height;    
     field int direction; // 1 = up, 2 = down, 3 = left, 4 = right
     field boolean alive;
-
+    
+    //Static Boundary Buffer Constant
     static int BOUNDARY_BUFFER;
     
+    //Player Constructor
     constructor Player new(int x_in, int y_in) {
         let BOUNDARY_BUFFER = 2;
         let x = x_in;
@@ -19,6 +22,7 @@ class Player {
         return this;
     }
 
+    //Draw Player
     method void draw() {
         do Screen.setColor(true);        
         do Screen.drawRectangle(x, y, x + width, y + height);
@@ -32,7 +36,8 @@ class Player {
         return;
     }
 
-    method void move() {                                
+    //Player Movement Up, Down, Left, Right
+    method void move() {
         do remove();
         
         // Up

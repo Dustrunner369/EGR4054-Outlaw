@@ -1,8 +1,9 @@
 class Main {
     function void main() {
         var TwoPlayerGame game;
-        
+                //Creates new TwoPlayerGame instance
         let game = TwoPlayerGame.new();
+                //Starts Gameplay
         do game.start();
         
         return;
