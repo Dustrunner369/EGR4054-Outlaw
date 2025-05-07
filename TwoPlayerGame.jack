@@ -282,10 +282,10 @@ class TwoPlayerGame {
     // Check if a bullet hit a player
     method boolean checkBulletHit(Bullet b, Player p) {
         // AABB Collision detection  
-        if ((b.getX() < (p.getX() + p.getWidth())) & // Bullet > right edge
-        ((b.getX() + b.getWidth()) > p.getX()) &     // Bullet < left edge
-        (b.getY() < (p.getY() + p.getHeight())) &    // Bullet > bottom edge
-        ((b.getY() + b.getHeight()) > p.getY())) {   // Bullet < top edge                 
+        if ((b.getX() < (p.getX() + p.getWidth())) & // Bullet < right edge
+        ((b.getX() + b.getWidth()) > p.getX()) &     // Bullet > left edge
+        (b.getY() < (p.getY() + p.getHeight())) &    // Bullet < bottom edge
+        ((b.getY() + b.getHeight()) > p.getY())) {   // Bullet > top edge                 
             return true;
         }
 
